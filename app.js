@@ -1,5 +1,5 @@
 //jshint esversion:6
-
+require('dotenv').config()
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -14,16 +14,16 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 
-const url = "mongodb+srv://opu-admin:project1@cluster0.eg7ee.mongodb.net/userDB?retryWrites=true&w=majority"
- mongoose.connect(url, {useNewUrlParser: true})
+// const url = "mongodb+srv://opu-admin:project1@cluster0.eg7ee.mongodb.net/userDB?retryWrites=true&w=majority"
+ mongoose.connect(process.env.URL, {useNewUrlParser: true})
 
  const userSchema = new mongoose.Schema({
 	email: String,
 	password: String
 }) 
-const secret ="Thissecretisforuserpassword"
+
 userSchema.plugin(encrypt, {
-	secret: secret,
+	secret: process.env.SECRET,
 	encryptedFields: ["password"]
 })
 
